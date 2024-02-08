@@ -77,18 +77,27 @@ export const editorOnMount = async (
     // triggerCharacters: ['/'],
   });
 
-  const tonCore = await fetch('/assets/ton/types/ton-core.d.ts');
-  const tonSanbox = await fetch('/assets/ton/types/ton-sandbox.d.ts');
+  let packagesRequired = [
+    // {
+    //   name: "ton-crypto@3.2.0",
+    //   text: 
+    // },
+    {
+      name: "@ton/core@0.54.0",
+      text: await fetch('/assets/ton/types/ton-core.d.ts').then( response => response.text() ),
+      filePath: 'file:///node_modules/@types/ton-core/index.d.ts'
+    },
+    {
+      name: "@ton-community/sandbox@3.2.0",
+      text: await fetch('/assets/ton/types/ton-sandbox.d.ts').then( response => response.text() ),
+      filePath: 'file:///node_modules/@types/@ton-community/sandbox/index.d.ts'
+    }
+  ]
 
-  const tonCoreText = await tonCore.text();
-  const tonSanboxText = await tonSanbox.text();
-
-  monaco.languages.typescript.typescriptDefaults.addExtraLib(
-    tonCoreText,
-    'file:///node_modules/@types/ton-core/index.d.ts'
-  );
-  monaco.languages.typescript.typescriptDefaults.addExtraLib(
-    tonSanboxText,
-    'file:///node_modules/@types/@ton-community/sandbox/index.d.ts'
-  );
+  packagesRequired.forEach( pkg => {
+    monaco.languages.typescript.typescriptDefaults.addExtraLib(
+      pkg.text,
+      pkg.filePath
+    )
+  })
 };
