@@ -125,6 +125,13 @@ const contractChatBot = `;; Credit: https://github.com/LaDoger/doge.fc
 
 export const commonProjectFiles = [
   {
+    id: '102',
+    name: 'packages.json',
+    type: 'file' as const,
+    path: 'packages.json',
+    content: '[\n "@ton/core@0.54.0",\n "@ton-community/sandbox@3.2.0"\n ]'
+  },
+  {
     id: '100',
     name: 'stateInit.cell.ts',
     parent: null,
